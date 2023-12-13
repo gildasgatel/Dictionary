@@ -40,4 +40,3 @@ Delete an entry from the dictionary:
 - Windows: The application is compatible with Windows systems.
 - Mac: The application is compatible with Mac OS.
 - Linux: The application is compatible with Linux distributions.
-- Android: The application can be used on Android using compatible terminals or emulators.

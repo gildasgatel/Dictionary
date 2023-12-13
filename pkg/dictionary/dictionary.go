@@ -8,7 +8,7 @@ import (
 	"github.com/dgraph-io/badger"
 )
 
-const DB_PATH = "./badger"
+const DB_PATH = "./.badger"
 
 type Dictionary struct {
 	db *badger.DB
