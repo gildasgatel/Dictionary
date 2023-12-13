@@ -2,6 +2,9 @@
 
 Dictionary is a Golang project that provides a dictionary manager through a Command-Line Interface (CLI). Badger is used for data persistence, ensuring a reliable and efficient database.
 
+![This is an image](https://github.com/gildasgatel/Dictionary/blob/master/book.jpg)
+
+
 ## Features
 
 - **CRUD:** Complete implementation of CRUD (Create, Read, Update, Delete) operations to manage dictionary entries.
