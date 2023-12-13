@@ -9,6 +9,7 @@ import (
 )
 
 func main() {
+	// Flags to perform specific actions
 	list := flag.Bool("list", false, "descrpition")
 	add := flag.Bool("add", false, "descrpition")
 	get := flag.Bool("get", false, "descrpition")
@@ -17,6 +18,7 @@ func main() {
 
 	flag.Parse()
 
+	// Creating a rows.Rows instance to operate on
 	var rows rows.Rows
 	if items := flag.Args(); len(items) > 0 {
 		rows.Key = append(rows.Key, []byte(items[0])...)
@@ -25,10 +27,12 @@ func main() {
 		rows.Desc = append(rows.Desc, []byte(items[1])...)
 	}
 
+	// Initializing the dictionary application
 	app, err := dictionary.New()
 	if err != nil {
 		log.Fatal(err)
 	}
+	defer app.Close()
 
 	switch {
 	case *list:
@@ -69,6 +73,7 @@ func main() {
 		}
 		fmt.Println("* * * Delete succed * * * ")
 	default:
+		// Displaying help information if no valid flag is provided
 		fmt.Println(help)
 	}
 
