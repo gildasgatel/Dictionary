@@ -8,4 +8,5 @@ type Service interface {
 	Add(data *rows.Rows) error
 	Update(data *rows.Rows) error
 	Delete(data *rows.Rows) error
+	Close()
 }

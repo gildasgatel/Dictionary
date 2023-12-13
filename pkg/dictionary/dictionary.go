@@ -14,6 +14,8 @@ type Dictionary struct {
 	db *badger.DB
 }
 
+// New initializes a new instance of the Dictionary service.
+// It opens a BadgerDB database at the specified DB_PATH.
 func New() (Service, error) {
 	opts := badger.DefaultOptions(DB_PATH)
 	opts.Logger = nil
@@ -21,6 +23,8 @@ func New() (Service, error) {
 	return &Dictionary{db: db}, err
 }
 
+// List retrieves a list of all rows from the database.
+// It iterates through the database and collects all rows, returning them as []*rows.Rows.
 func (d *Dictionary) List() ([]*rows.Rows, error) {
 	var datas []*rows.Rows
 	err := d.db.View(func(txn *badger.Txn) error {
@@ -48,6 +52,8 @@ func (d *Dictionary) List() ([]*rows.Rows, error) {
 	return datas, err
 }
 
+// Get retrieves a specific row from the database based on its key.
+// It populates the provided rows.Rows pointer with the retrieved data.
 func (d *Dictionary) Get(data *rows.Rows) error {
 	err := d.db.View(func(txn *badger.Txn) error {
 		item, err := txn.Get(data.Key)
@@ -72,6 +78,9 @@ func (d *Dictionary) Get(data *rows.Rows) error {
 
 	return err
 }
+
+// Add inserts a new row into the database.
+// It generates the current date, marshals the provided rows.Rows data, and stores it.
 func (d *Dictionary) Add(data *rows.Rows) error {
 	date := time.Now().Format(time.RFC822)
 	data.Date = []byte(date)
@@ -84,12 +93,21 @@ func (d *Dictionary) Add(data *rows.Rows) error {
 		return err
 	})
 }
+
+// Update updates a row in the database using the provided data.
+// It utilizes the Add method to perform the update operation.
 func (d *Dictionary) Update(data *rows.Rows) error {
 	return d.Add(data)
 }
+
+// Delete removes a row from the database based on the provided key.
 func (d *Dictionary) Delete(data *rows.Rows) error {
 	return d.db.Update(func(txn *badger.Txn) error {
 		err := txn.Delete(data.Key)
 		return err
 	})
+}
+
+func (d *Dictionary) Close() {
+	d.db.Close()
 }
